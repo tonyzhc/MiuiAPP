@@ -1,0 +1,158 @@
+package com.example.wangdaopeng.myapplication;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+
+import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+public class App_count_category extends AppCompatActivity {
+    public boolean onKeyDown(int keyCode, KeyEvent event)
+    {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent myIntent = new Intent();
+            myIntent = new Intent(App_count_category.this, MainActivity.class);
+            startActivity(myIntent);
+            this.finish();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    private ListView lv1;
+
+    private int[] ic={R.mipmap.tongxun,R.mipmap.yingshi,R.mipmap.dushu,R.mipmap.jinrong,R.mipmap.tools};
+    private int[] pre={R.mipmap.process_4,R.mipmap.process_3,R.mipmap.process_2,R.mipmap.process_1,R.mipmap.process_1};
+    private	String[] name={"聊天社交","影视视听","图书阅读","金融理财","实用工具"};
+    private  String[] time={"3h","2.5h","1.2h","0.3h","0.2h"};
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.app_count);
+
+        Button bt = (Button)findViewById(R.id.show_category) ;
+        bt.setText("显示应用");
+
+        setTitle("App统计-类别显示");
+
+        ImageView imageView =(ImageView)findViewById(R.id.zhuzhuangtu);
+        imageView.setImageResource(R.mipmap.lbtj);
+
+        Button show_category =(Button)findViewById(R.id.show_category);
+        show_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(App_count_category.this,App_count_application.class);
+                startActivity(i);
+            }
+        });
+
+        Button today =(Button)findViewById(R.id.app_today);
+        today.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(App_count_category.this,App_count_category.class);
+                startActivity(i);
+            }
+        });
+
+        Button yesterday =(Button)findViewById(R.id.app_yesterday);
+        yesterday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(App_count_category.this,App_count_category.class);
+                startActivity(i);
+            }
+        });
+
+        Button week =(Button)findViewById(R.id.app_last_week);
+        week.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(App_count_category.this,App_count_category.class);
+                startActivity(i);
+            }
+        });
+
+
+        Button month =(Button)findViewById(R.id.app_last_month);
+        month.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =  new Intent(App_count_category.this,App_count_category.class);
+                startActivity(i);
+            }
+        });
+
+
+        lv1 = (ListView) findViewById(R.id.app_list);
+
+        BaseAdapter adapter = new BaseAdapter() {
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                // TODO 自动生成的方法存根
+                View layout=View.inflate(App_count_category.this, R.layout.list, null);
+                ImageView app_icon = (ImageView)layout.findViewById(R.id.app_icon);
+                ImageView process =(ImageView) layout.findViewById(R.id.process);
+                TextView app_name = (TextView)layout.findViewById(R.id.app_name);
+                TextView app_time =(TextView)layout.findViewById(R.id.app_time) ;
+
+
+                app_icon.setImageResource(ic[position]);
+                process.setImageResource(pre[position]);
+                app_name.setText(name[position]);
+                app_time.setText(time[position]);
+
+                return layout;
+            }
+
+            @Override
+            public long getItemId(int position) {
+                // TODO 自动生成的方法存根
+                return position;
+            }
+
+            @Override
+            public Object getItem(int position) {
+                // TODO 自动生成的方法存根
+                return name[position];
+            }
+
+            @Override
+            public int getCount() {
+                // TODO 自动生成的方法存根
+                return name.length;
+            }
+        };///new BaseAdapter()
+
+        lv1.setAdapter(adapter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+}
+

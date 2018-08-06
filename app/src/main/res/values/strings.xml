@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">米</string>
+
+    <string name="infomation">这个是一个app</string>
+    <!--<string name="app_name">常用组件测试</string>-->
+    <string name="List_View">ListView演示</string>
+    <string name="commonControl_List">常用Android演示</string>
+    <string name="my_app_rank">我的应用排行</string>
+    <string name="button_see_other_time">查看其他时间</string>
+    <string name="today_app">今日应用</string>
+</resources>
