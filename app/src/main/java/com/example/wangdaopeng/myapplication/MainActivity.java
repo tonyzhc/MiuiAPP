@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setTitle("APP主界面");
         setContentView(R.layout.activity_main);
         bindView();
+        Toast.makeText(getApplicationContext(),CurrentUser.getInstance().getUsename(),Toast.LENGTH_SHORT).show();
 
     }
 
@@ -103,13 +104,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.txt_deal:
                 Calendar now =  Calendar.getInstance();
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String value = sdf.format(now.getTime());
-                String key = "date";
+                String dateString = sdf.format(now.getTime());
+                System.out.print(dateString);
+                int y = Integer.parseInt(dateString.split("-")[0]);
+                int m = Integer.parseInt(dateString.split("-")[1]);
+                int d = Integer.parseInt(dateString.split("-")[2]);
 
+                System.out.print("******************");
+                System.out.print(y);
+                System.out.print(m);
+                System.out.print(d);
+                System.out.print("******************");
 
-
-                Intent i = new Intent(this,TraceActivity_tomorrow.class);
-                i.putExtra(key,value);
+                Intent i = new Intent(this,TraceActivity.class);
+                i.putExtra("y",y);
+                i.putExtra("m",m);
+                i.putExtra("d",d);
+                i.putExtra("flag",1);
                 startActivity(i);
                 break;
 

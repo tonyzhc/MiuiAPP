@@ -28,7 +28,7 @@ public class My_info extends AppCompatActivity {
         my_ai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(My_info.this,TomorrowAI.class);
+                Intent i =  new Intent(My_info.this,TodayAI.class);
                 startActivity(i);
             }
         });
@@ -58,7 +58,7 @@ public class My_info extends AppCompatActivity {
         my_trace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(My_info.this,TraceActivity_tomorrow.class);
+                Intent i =  new Intent(My_info.this,TodayAI.class);
                 startActivity(i);
             }
         });

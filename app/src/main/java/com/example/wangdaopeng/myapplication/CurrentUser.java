@@ -16,6 +16,11 @@ public class CurrentUser {
         return currentUser;
     }
 
+    String usename="user1";
+    String date="date1";
+    Global_Data global_data = Global_Data.getInstance();
+
+
     public String getUsename() {
         return usename;
     }
@@ -24,10 +29,6 @@ public class CurrentUser {
         this.usename = usename;
     }
 
-    String usename;
-    String fieldname;
-    String date;
-    Global_Data global_data = Global_Data.getInstance();
 
 
     public   String login(String username,String password) throws IOException {
@@ -111,4 +112,20 @@ public class CurrentUser {
 
         return  trace;
     }
+
+    public String get_welcome() throws IOException {
+        String url =  global_data.getWelcome_url();
+
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder params  = new FormBody.Builder();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+        String welcome  = client.newCall(request).execute().body().string();
+
+        return welcome;
+    }
+
 }

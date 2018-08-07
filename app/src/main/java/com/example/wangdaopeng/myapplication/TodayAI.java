@@ -14,7 +14,7 @@ public class TodayAI extends AppCompatActivity {
     {
         if(keyCode == KeyEvent.KEYCODE_BACK){
             Intent myIntent = new Intent();
-            myIntent = new Intent(TodayAI.this, TraceActivity_tomorrow.class);
+            myIntent = new Intent(TodayAI.this, TodayAI.class);
             startActivity(myIntent);
             this.finish();
         }
@@ -32,7 +32,7 @@ public class TodayAI extends AppCompatActivity {
         yesterday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(TodayAI.this,YesterdayAI.class);
+                Intent i =  new Intent(TodayAI.this,TodayAI.class);
                 startActivity(i);
             }
         });
@@ -41,7 +41,7 @@ public class TodayAI extends AppCompatActivity {
         tomorrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(TodayAI.this,TomorrowAI.class);
+                Intent i =  new Intent(TodayAI.this,TodayAI.class);
                 startActivity(i);
             }
         });

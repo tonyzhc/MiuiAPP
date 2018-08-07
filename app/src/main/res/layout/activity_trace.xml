@@ -13,23 +13,35 @@
         android:layout_height="98dp"
         android:orientation="horizontal">
 
-        <DatePicker
-            android:id="@+id/datapicker"
-            android:layout_width="244dp"
+
+        <LinearLayout
+            android:layout_width="260dp"
             android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <DatePicker
+                android:id="@+id/datapicker"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:calendarViewShown="false"
+                android:datePickerMode="spinner"></DatePicker>
+        </LinearLayout>
 
 
-            >
-
-        </DatePicker>
-
-        <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Button
             android:id="@+id/today_myAI"
             android:layout_width="35dp"
-            android:layout_height="60dp"
+            android:layout_height="36dp"
             android:layout_marginTop="15dp"
             android:layout_weight="1"
             android:text="我的AI日记" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -54,10 +66,24 @@
 
         <Button
             android:id="@+id/trace_yesterday"
-            android:layout_width="wrap_content"
+            android:layout_width="76dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="前一天" />
+
+        <Button
+            android:id="@+id/trace_refresh"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="刷新" />
+
+        <Button
+            android:id="@+id/trace_changeview"
+            android:layout_width="111dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="切换视角" />
 
         <Button
             android:id="@+id/trace_tomorrow"
