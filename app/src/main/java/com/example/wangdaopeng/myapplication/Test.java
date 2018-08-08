@@ -1,91 +1,101 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Iterator;
+import java.util.List;
+import java.util.TreeMap;
 
-
-
-public class Test  extends AppCompatActivity {
-
-
+public class Test extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
+//        startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
+        DecimalFormat df = new DecimalFormat("00");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.todayai);
 
-        setTitle("从本机获取数据");
-        mUsageStatsManager = (UsageStatsManager) getActivity()
-                .getSystemService(Context.USAGE_STATS_SERVICE);
+        setContentView(R.layout.test);
 
 
+//        TextView textView = (TextView) findViewById(R.id.testText);
 
-    }
+        Calendar beginCal = Calendar.getInstance();
+        beginCal.add(Calendar.HOUR_OF_DAY, -1);
+        Calendar endCal = Calendar.getInstance();
+        UsageStatsManager manager = (UsageStatsManager) getApplicationContext().getSystemService(USAGE_STATS_SERVICE);
+        List<UsageStats> stats = manager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, beginCal.getTimeInMillis(), endCal.getTimeInMillis());
+        String res = "";
 
-    public static long getUseDuration(String pkgName) {
+        AppUseStatics appUseStatics = new AppUseStatics(manager);
 
-        // 注意适配性问题，无法找到该类
-        try{
-            com.android.internal.app.IUsageStats mUsageStatsService = com.android.internal.app.IUsageStats.Stub
-                    .asInterface(ServiceManager.getService("usagestats"));
-            PkgUsageStats[] stats;
-            try {
-                stats = mUsageStatsService.getAllPkgUsageStats();
-            } catch (Exception e) {
-                LogUtil.d("no permission get use duration");
-                e.printStackTrace();
-                return 0;
-            }
-            if (stats == null) {
-                return 0;
-            }
+        TreeMap<String, Long> appuse = appUseStatics.get_StaticsByDay();
 
-            for (PkgUsageStats ps : stats) {
-                if (ps.packageName.equals(pkgName)) {
-                    return ps.usageTime;
-                }
-            }
-        }catch(Exception e){
+        Iterator key =  appuse.keySet().iterator();
+        PackageManager pm = getApplicationContext().getPackageManager();
+        Object obj = key.next();
+        String appname = obj.toString();
+        setTitle(appname);
+        long usetime = appuse.get(obj);
+
+
+
+
+        PackageManager packageManager = null;
+        ApplicationInfo applicationInfo = null;
+        try {
+             applicationInfo  = pm.getApplicationInfo(appname,0);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Drawable d =  pm.getApplicationIcon(applicationInfo);
+
+        ImageView imageView =(ImageView)findViewById(R.id.appicontest);
+        imageView.setImageDrawable(d);
+
+//
+//        while (key.hasNext()){
+//            Object Appname_obj = key.next();
+//            Long UseTime = appuse.get(Appname_obj);
+//            String AppName  =  Appname_obj.toString();
+//            res += AppName+":" + String.valueOf(UseTime) + "\n";
+//        }
+//
+
+
+//        PackageManager pm = getApplicationContext().getPackageManager();
+//        for (UsageStats us : stats) {
+////            System.out.println("++++++++++++++++++++");
+////            System.out.print(us.getPackageName());
+////            System.out.print(us.getTotalTimeInForeground());
+////            System.out.println("++++++++++++++++++++");
+//
+//            res += us.getPackageName() + ":" + String.valueOf((us.getTotalTimeInForeground() + 55000) / 60000);
+//            try {
+//                ApplicationInfo appinfo = pm.getApplicationInfo(us.getPackageName(), PackageManager.GET_META_DATA);
+//            } catch (PackageManager.NameNotFoundException e) {
+//                e.printStackTrace();
+//
+//            }
+
+//            textView.setText(res);
+
 
         }
-        return 0;
+
+
     }
-
-
-
-
-    // 获取使用次数
-    public static long getUseTime(String pkgName) {
-        // 注意适配性问题，无法找到该类
-        try{
-            com.android.internal.app.IUsageStats mUsageStatsService = com.android.internal.app.IUsageStats.Stub
-                    .asInterface(ServiceManager.getService("usagestats"));
-            PkgUsageStats[] stats = null;
-            try {
-                stats = mUsageStatsService.getAllPkgUsageStats();
-            } catch (Exception e) {
-                LogUtil.d("no permission get use duration");
-                e.printStackTrace();
-                return 0;
-            }
-            if (stats == null) {
-                return 0;
-            }
-            for (PkgUsageStats ps : stats) {
-                if (ps.packageName.equals(pkgName)) {
-                    return ps.launchCount;
-                }
-            }
-        }catch(Exception e){
-
-        }
-        return 0;
-    }
-
-
-}

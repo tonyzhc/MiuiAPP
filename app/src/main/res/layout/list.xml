@@ -16,17 +16,17 @@
 
     <ImageView
         android:id="@+id/process"
-        android:layout_width="228dp"
+        android:layout_width="167dp"
         android:layout_height="23dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="111dp"
         android:layout_marginTop="39dp"
-        app:srcCompat="@mipmap/calendar" />
+        app:srcCompat="@mipmap/duration" />
 
     <TextView
         android:id="@+id/app_name"
-        android:layout_width="wrap_content"
+        android:layout_width="267dp"
         android:layout_height="24dp"
         android:layout_above="@+id/process"
         android:layout_alignStart="@+id/process"
@@ -36,12 +36,12 @@
 
     <TextView
         android:id="@+id/app_time"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/process"
+        android:layout_width="71dp"
+        android:layout_height="29dp"
+        android:layout_alignBottom="@+id/app_icon"
 
-        android:layout_marginTop="0dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="19dp"
         android:text="TextView" />
 
     <!--<TextView-->

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 i.putExtra("y",y);
                 i.putExtra("m",m);
                 i.putExtra("d",d);
-                i.putExtra("flag",1);
+                i.putExtra("flag",0);
                 startActivity(i);
                 break;
 

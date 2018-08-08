@@ -77,7 +77,9 @@ public class TraceListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void bindHolder(Trace trace) {
             tvAcceptTime.setText(trace.getAcceptTime());
             tvAcceptStation.setText(trace.getAcceptStation());
-            act_icon.setImageResource(trace.getImageID());
+            /**changed here*/
+//            act_icon.setImageResource(trace.getImage());
+            act_icon.setImageDrawable(trace.getImage());
         }
     }
 }

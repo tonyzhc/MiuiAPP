@@ -27,36 +27,32 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/app_today"
+                android:id="@+id/appcount_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
                 android:text="今天" />
 
             <Button
-                android:id="@+id/app_yesterday"
+                android:id="@+id/appcount_lastweek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="昨天" />
+                android:text="过去一周" />
 
             <Button
-                android:id="@+id/app_last_week"
+                android:id="@+id/appcount_lastmonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="过去7天" />
+                android:text="过去一月" />
 
             <Button
-                android:id="@+id/app_last_month"
+                android:id="@+id/appcount_lastyear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="过去30天" />
+                android:text="过去一年" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,13 +68,12 @@
                 android:text="最长使用" />
 
             <Button
-                android:id="@+id/show_category"
+                android:id="@+id/what_showing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="200dp"
                 android:background="@android:color/transparent"
-                android:text="显示类别"
-                 />
+                android:text="显示类别" />
 
 
         </LinearLayout>

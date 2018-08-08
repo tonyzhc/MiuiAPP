@@ -16,12 +16,9 @@
         <activity android:name=".Test">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
             </intent-filter>
         </activity>
-
-
-
 
         <activity android:name=".Login">
             <intent-filter>
@@ -61,38 +58,9 @@
         </activity>
 
 
-        <activity android:name=".YesterdayAI">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".TomorrowAI">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".TraceActivity_yesterday">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            </intent-filter>
-        </activity>
 
 
-        <activity android:name=".TraceActivity_tomorrow">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            </intent-filter>
-        </activity>
         <activity android:name=".Label_feedback">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,7 +2,11 @@ package com.example.wangdaopeng.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -147,12 +151,20 @@ public class TraceActivity extends AppCompatActivity {
         });
 
         findView();
+        PackageManager packageManager = getPackageManager();
 
         try {
             try {
-                if (flag==0)
-                // notice!!!!
-                      initData_fromRemmote(date);
+                if (flag==0) {
+                    // notice!!!!
+                    Toast.makeText(getApplicationContext(),"reomote",Toast.LENGTH_SHORT).show();
+                    try {
+                        date = "date1";
+                        initData_fromRemmote(date,packageManager);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
                 else
                       initData_fromLocal();
             } catch (IOException e) {
@@ -173,20 +185,28 @@ public class TraceActivity extends AppCompatActivity {
 
     //system get josn data
 
-    private void initData_fromRemmote(String date) throws JSONException, IOException, NoSuchFieldException, IllegalAccessException {
 
-                CurrentUser currentUser =CurrentUser.getInstance();
+    private void initData_fromRemmote(String date,PackageManager packageManager) throws JSONException, IOException,PackageManager.NameNotFoundException {
+
+
+        CurrentUser currentUser =CurrentUser.getInstance();
         JSONObject  jsonObject = new JSONObject(currentUser.get_trace(date));
         Iterator<String> iterator = jsonObject.keys();
         while (iterator.hasNext()){
-            String key = iterator.next();
-            String value = jsonObject.getString(key);
-            Field field =  R.mipmap.class.getField(value);
-            int id =(Integer)field.get(new R.mipmap());
-            traceList.add(new Trace(key,"使用"+Global_Data.getInstance().get_picname().get(value),id));
+            //
+            String time = iterator.next();
+            String appname = jsonObject.getString(time).toString().toLowerCase();
+
+
+            /**获得图片的id**/
+
+           ApplicationInfo  applicationInfo  = packageManager.getApplicationInfo(appname,0);
+            Drawable d =  packageManager.getApplicationIcon(applicationInfo);
+///           Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground);
+            traceList.add(new Trace(time,"使用"+appname,d));
         }
 
-        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",R.mipmap.ddh));
+//        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",));
         adapter = new TraceListAdapter(this, traceList);
         rvTrace.setLayoutManager(new LinearLayoutManager(this));
         rvTrace.setAdapter(adapter);
@@ -194,7 +214,7 @@ public class TraceActivity extends AppCompatActivity {
 
     private void initData_fromLocal() throws JSONException, IOException, NoSuchFieldException, IllegalAccessException {
 
-        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",R.mipmap.ddh));
+//        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",R.mipmap.ddh));
         adapter = new TraceListAdapter(this, traceList);
         rvTrace.setLayoutManager(new LinearLayoutManager(this));
         rvTrace.setAdapter(adapter);
