@@ -1,5 +1,6 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.app.usage.UsageStatsManager;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setTitle("APP主界面");

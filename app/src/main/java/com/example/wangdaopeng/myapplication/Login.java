@@ -1,5 +1,6 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.app.usage.UsageStatsManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -37,7 +38,7 @@ public class Login extends AppCompatActivity {
         StrictMode.setThreadPolicy(policy);
 
         setTitle("登录界面");
-
+       final UsageStatsManager usageStatsManager = (UsageStatsManager) getApplicationContext().getSystemService(USAGE_STATS_SERVICE);
 
 //        Field field = null;
 //        try {
@@ -84,6 +85,8 @@ public class Login extends AppCompatActivity {
                     String login_res = currentUser.login(account,password);
                     if (login_res.equals("success")){
                         currentUser.setUsename(account);
+                        currentUser.initTodayTrace(usageStatsManager);
+                        currentUser.updateAct(usageStatsManager);
                         Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
                         Intent i =  new Intent(Login.this,MainActivity.class);
                         startActivity(i);

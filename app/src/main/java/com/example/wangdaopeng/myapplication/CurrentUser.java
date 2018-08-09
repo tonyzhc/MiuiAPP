@@ -1,6 +1,17 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
+import android.util.Log;
+
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -15,6 +26,7 @@ public class CurrentUser {
     public  static CurrentUser getInstance(){
         return currentUser;
     }
+    private TreeMap<Long,String> traceTodayActivity  = new TreeMap<>(Collections.reverseOrder());
 
     String usename="user1";
     String date="date1";
@@ -127,5 +139,73 @@ public class CurrentUser {
 
         return welcome;
     }
+
+
+
+    public  void initTodayTrace(UsageStatsManager usageStatsManager){
+        Calendar beginCal  = Calendar.getInstance();
+        beginCal.set(Calendar.HOUR_OF_DAY,0);
+        beginCal.set(Calendar.SECOND,0);
+        beginCal.set(Calendar.MINUTE,0);
+        beginCal.set(Calendar.MILLISECOND,0);
+        Calendar endCal  =Calendar.getInstance();
+        List<UsageStats> stats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, beginCal.getTimeInMillis(), endCal.getTimeInMillis());
+        for(UsageStats us:stats){
+            String appname = us.getPackageName();
+            long lastuseTime =us.getLastTimeUsed();
+            traceTodayActivity.put(lastuseTime,appname);
+        }
+    }
+
+    class UpdateActivity extends  Thread{
+        UsageStatsManager thread_usageStatsManager;
+        public  UpdateActivity(UsageStatsManager usageStatsManager){
+            this.thread_usageStatsManager =usageStatsManager;
+        }
+        public  void  run(){
+            while (true){
+                Calendar beginCal  = Calendar.getInstance();
+                beginCal.set(Calendar.HOUR_OF_DAY,-1);
+                Calendar endCal  =Calendar.getInstance();
+                String lastAppName  = "apptest";
+                long   lastAppTime = 0;
+
+                List<UsageStats> stats = thread_usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, beginCal.getTimeInMillis(), endCal.getTimeInMillis());
+                for(UsageStats us:stats){
+                    String appname = us.getPackageName();
+                    long lastuseTime =us.getLastTimeUsed();
+                    if(lastuseTime>lastAppTime){
+                        lastAppTime = lastuseTime;
+                        lastAppName = appname;
+                    }
+                }
+
+                Object iterator = traceTodayActivity.keySet().iterator().next();
+                String Pop_Act_Name =  traceTodayActivity.get(iterator).toString();
+                Log.v("NBA",lastAppName);
+                if (!Pop_Act_Name.equals(lastAppName)){
+
+                    traceTodayActivity.put(lastAppTime,lastAppName);
+                }
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public  void updateAct(UsageStatsManager usageStatsManager){
+        UpdateActivity updateActivity =  new UpdateActivity(usageStatsManager);
+        updateActivity.start();
+    }
+
+
+    public TreeMap<Long,String> getTodayTraceActivity(){
+        return traceTodayActivity;
+    }
+
+
 
 }

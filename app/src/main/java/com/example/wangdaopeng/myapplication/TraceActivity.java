@@ -1,5 +1,7 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -34,6 +36,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class TraceActivity extends AppCompatActivity {
     @Override
@@ -72,7 +75,7 @@ public class TraceActivity extends AppCompatActivity {
 
         //生成一个calender以便于后面跳转
         Calendar calendar = Calendar.getInstance();
-        calendar.set(y,m,d);
+        calendar.set(y,m-1,d);
         //获得前一天和后一天的时间，标准格式,用于请求数据
         calendar.add(calendar.DATE,-1);
         final String yesterday_date_string = String.valueOf(calendar.get(calendar.YEAR))+df.format(calendar.get(calendar.MONTH))+df.format(calendar.get(calendar.DAY_OF_MONTH));
@@ -85,7 +88,7 @@ public class TraceActivity extends AppCompatActivity {
         String date =  String.valueOf(y) + df.format(m) + df.format(d);
         setTitle(date);
         DatePicker datePicker = (DatePicker)findViewById(R.id.datapicker);
-        datePicker.updateDate(y,m,d);
+        datePicker.updateDate(y,m-1,d);
 
 
 
@@ -110,8 +113,9 @@ public class TraceActivity extends AppCompatActivity {
 
                 Intent i =  new Intent(TraceActivity.this,TraceActivity.class);
                 i.putExtra("y",Integer.valueOf(yesterday_date_string.substring(0,4)));
-                i.putExtra("m",Integer.valueOf(yesterday_date_string.substring(4,6)));
+                i.putExtra("m",Integer.valueOf(yesterday_date_string.substring(4,6))+1);
                 i.putExtra("d",Integer.valueOf(yesterday_date_string.substring(6,8)));
+                i.putExtra("flag",1);
                 Toast.makeText(getApplicationContext(),"to yesterday"+String.valueOf(Integer.valueOf(yesterday_date_string.substring(6,8))),Toast.LENGTH_SHORT).show();
                 startActivity(i);
             }
@@ -125,8 +129,9 @@ public class TraceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i =  new Intent(TraceActivity.this,TraceActivity.class);
                 i.putExtra("y",Integer.valueOf(tomorrow_date_string.substring(0,4)));
-                i.putExtra("m",Integer.valueOf(tomorrow_date_string.substring(4,6)));
+                i.putExtra("m",Integer.valueOf(tomorrow_date_string.substring(4,6))+1);
                 i.putExtra("d",Integer.valueOf(tomorrow_date_string.substring(6,8)));
+                i.putExtra("flag",1);
                 startActivity(i);
             }
         });
@@ -151,27 +156,30 @@ public class TraceActivity extends AppCompatActivity {
         });
 
         findView();
-        PackageManager packageManager = getPackageManager();
+        PackageManager packageManager = getApplicationContext().getPackageManager();
+        UsageStatsManager usageStatsManager = (UsageStatsManager) getApplicationContext().getSystemService(USAGE_STATS_SERVICE);
 
         try {
             try {
-                if (flag==0) {
+                if (flag==1) {
                     // notice!!!!
                     Toast.makeText(getApplicationContext(),"reomote",Toast.LENGTH_SHORT).show();
                     try {
-                        date = "date1";
-                        initData_fromRemmote(date,packageManager);
+//                         date = "20180807";
+                         initData_fromRemmote(date,packageManager);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 else
-                      initData_fromLocal();
+                      initData_fromLocal(packageManager);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e){
                 e.printStackTrace();
             } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
             }
         } catch (JSONException e) {
@@ -195,26 +203,41 @@ public class TraceActivity extends AppCompatActivity {
         while (iterator.hasNext()){
             //
             String time = iterator.next();
-            String appname = jsonObject.getString(time).toString().toLowerCase();
+            String appname = jsonObject.getString(time).toString();
 
 
             /**获得图片的id**/
 
            ApplicationInfo  applicationInfo  = packageManager.getApplicationInfo(appname,0);
             Drawable d =  packageManager.getApplicationIcon(applicationInfo);
-///           Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground);
             traceList.add(new Trace(time,"使用"+appname,d));
         }
 
 //        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",));
+        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",getDrawable(R.drawable.tab_menu_bg)));
         adapter = new TraceListAdapter(this, traceList);
         rvTrace.setLayoutManager(new LinearLayoutManager(this));
         rvTrace.setAdapter(adapter);
     }
 
-    private void initData_fromLocal() throws JSONException, IOException, NoSuchFieldException, IllegalAccessException {
+    private void initData_fromLocal(PackageManager packageManager) throws JSONException, IOException, NoSuchFieldException, IllegalAccessException, PackageManager.NameNotFoundException {
+          CurrentUser currentUser = CurrentUser.getInstance();
+          TreeMap<Long,String> traceMap =  currentUser.getTodayTraceActivity();
 
-//        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",R.mipmap.ddh));
+          Iterator iterator =  traceMap.keySet().iterator();
+          while (iterator.hasNext()){
+              ApplicationInfo applicationInfo = null;
+              Object AppTime = iterator.next();
+              String AppName = traceMap.get(AppTime);
+
+              applicationInfo  = packageManager.getApplicationInfo(AppName.toString(),0);
+              Drawable d =  packageManager.getApplicationIcon(applicationInfo);
+              traceList.add(new Trace(AppTime.toString(),"使用"+AppName,d));
+          }
+
+          /** set time**/
+
+        traceList.add(new Trace("2018-07-24 22:00:00", "通话15分钟",getDrawable(R.drawable.tab_menu_bg)));
         adapter = new TraceListAdapter(this, traceList);
         rvTrace.setLayoutManager(new LinearLayoutManager(this));
         rvTrace.setAdapter(adapter);
