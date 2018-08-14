@@ -41,7 +41,7 @@ public class profile extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         try {
-            labelString = CurrentUser.getInstance().get_label();
+            labelString = CurrentUser.getInstance().get_label().substring(1,CurrentUser.getInstance().get_label().length()-1);
         } catch (IOException e) {
             e.printStackTrace();
         }

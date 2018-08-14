@@ -1,29 +1,20 @@
 package com.example.wangdaopeng.myapplication;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -183,12 +174,12 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
         myRecyclerView = recyclerView;
     }
 
-    public JSONArray getLabels() {
-        JSONArray jarray = new JSONArray();
+    public String getLabels() {
+        StringBuilder builder = new StringBuilder();
         for(String label : labels) {
-            jarray.put(label);
+            builder.append("#").append(label);
         }
-        return jarray;
+        return builder.toString();
     }
 
     public void addLabel(String label) {
