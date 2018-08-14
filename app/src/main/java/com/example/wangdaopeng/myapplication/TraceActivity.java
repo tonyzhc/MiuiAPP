@@ -1,41 +1,29 @@
 package com.example.wangdaopeng.myapplication;
 
-import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.TreeMap;
 
 public class TraceActivity extends AppCompatActivity {
@@ -83,24 +71,28 @@ public class TraceActivity extends AppCompatActivity {
         final String tomorrow_date_string  = String.valueOf(calendar.get(calendar.YEAR))+df.format(calendar.get(calendar.MONTH))+df.format(calendar.get(calendar.DAY_OF_MONTH));
 
 
-        //设置datepicker 在界面上显示当前的时间
 
+
+
+        /**data为某一天的唯一时间标志，yymmdd形式，根据这个data字符串来从后台获取数据*/
         String date =  String.valueOf(y) + df.format(m) + df.format(d);
         setTitle(date);
+
+        //设置datepicker 在界面上显示当前的时间
         DatePicker datePicker = (DatePicker)findViewById(R.id.datapicker);
         datePicker.updateDate(y,m-1,d);
 
 
 
-
+       //跳转到日记部分
         Button AI = (Button)findViewById(R.id.today_myAI);
         AI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(TraceActivity.this,TodayAI.class);
+                Intent i =  new Intent(TraceActivity.this,AIDiary.class);
                 i.putExtra("y",y);
-                i.putExtra("m",d);
-                i.putExtra("d",m);
+                i.putExtra("m",m);
+                i.putExtra("d",d);
                 startActivity(i);
             }
         });
@@ -208,7 +200,7 @@ public class TraceActivity extends AppCompatActivity {
 
             /**获得图片的id**/
 
-           ApplicationInfo  applicationInfo  = packageManager.getApplicationInfo(appname,0);
+            ApplicationInfo  applicationInfo  = packageManager.getApplicationInfo(appname,0);
             Drawable d =  packageManager.getApplicationIcon(applicationInfo);
             traceList.add(new Trace(time,"使用"+appname,d));
         }
@@ -229,6 +221,7 @@ public class TraceActivity extends AppCompatActivity {
               ApplicationInfo applicationInfo = null;
               Object AppTime = iterator.next();
               String AppName = traceMap.get(AppTime);
+              if(AppName.toLowerCase().equals("com.miui.home") || AppName.toLowerCase().equals("com.android.systemui")) continue;
 
               applicationInfo  = packageManager.getApplicationInfo(AppName.toString(),0);
               Drawable d =  packageManager.getApplicationIcon(applicationInfo);

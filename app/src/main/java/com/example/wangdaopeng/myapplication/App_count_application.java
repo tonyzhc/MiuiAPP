@@ -39,15 +39,7 @@ public class App_count_application extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-
     private ListView lv1;
-
-
-
-//    private int[] ic={R.mipmap.wechat,R.mipmap.qq,R.mipmap.weibo,R.mipmap.xlyy,R.mipmap.sll,R.mipmap.cs,R.mipmap.nba,R.mipmap.zhifubao};
-//    private int[] pre={R.mipmap.process_4,R.mipmap.process_3,R.mipmap.process_2,R.mipmap.process_1,R.mipmap.process_1,R.mipmap.process_1,R.mipmap.process_1,R.mipmap.process_1};
-//    private	String[] name={"微信","QQ","微博","迅雷视频","360","cs枪战","NBA直播","支付宝"};
-//    private  String[] time={"40min","30min","20min","10min","10min","10min","10min","10min"};
 
     protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -148,19 +140,6 @@ public class App_count_application extends AppCompatActivity {
         if(flag==4) appuse = appUseStatics.get_StaticsByYear();
 
 
-//        switch (flag){
-//            case 1:
-//                appuse = appUseStatics.get_StaticsByDay();
-//            case 2:
-//                appuse = appUseStatics.get_StaticsByWeek();
-//            case 3:
-//                appuse = appUseStatics.get_StaticsByMonth();
-//            case 4:
-//                appuse = appUseStatics.get_StaticsByYear();
-//            default:
-//                appuse =appUseStatics.get_StaticsByWeek();
-//                System.out.print("No possible");
-//        }
 
 
         //获取app的名称 使用时长和图标

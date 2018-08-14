@@ -31,7 +31,7 @@ public class CurrentUser {
     String usename="user1";
     String date="date1";
     Global_Data global_data = Global_Data.getInstance();
-
+    int current_date = 0;
 
     public String getUsename() {
         return usename;
@@ -41,7 +41,13 @@ public class CurrentUser {
         this.usename = usename;
     }
 
+    public void setCurrent_date(int current_date){
+        this.current_date =current_date;
+    }
 
+    public int getCurrent_date(){
+        return current_date;
+    }
 
     public   String login(String username,String password) throws IOException {
         String url = global_data.getLogin_url();
@@ -140,6 +146,21 @@ public class CurrentUser {
         return welcome;
     }
 
+    public  String  submit_label(String label_string) throws IOException {
+        String url = global_data.getSubmitlabel_url();
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder params = new FormBody.Builder();
+
+        params.add("usename",currentUser.getUsename());
+        params.add("label",label_string);
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(params.build())
+                .build();
+        String status = client.newCall(request).execute().body().string();
+        return status;
+    }
 
 
     public  void initTodayTrace(UsageStatsManager usageStatsManager){
@@ -188,7 +209,7 @@ public class CurrentUser {
                     traceTodayActivity.put(lastAppTime,lastAppName);
                 }
                 try {
-                    sleep(3000);
+                    sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

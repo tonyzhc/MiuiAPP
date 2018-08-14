@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 
 public class My_info extends AppCompatActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -28,7 +27,7 @@ public class My_info extends AppCompatActivity {
         my_ai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(My_info.this,TodayAI.class);
+                Intent i =  new Intent(My_info.this,AIDiary.class);
                 startActivity(i);
             }
         });
@@ -58,7 +57,7 @@ public class My_info extends AppCompatActivity {
         my_trace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =  new Intent(My_info.this,TodayAI.class);
+                Intent i =  new Intent(My_info.this,AIDiary.class);
                 startActivity(i);
             }
         });

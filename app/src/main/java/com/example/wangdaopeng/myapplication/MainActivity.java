@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,6 +55,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         bindView();
         Toast.makeText(getApplicationContext(),CurrentUser.getInstance().getUsename(),Toast.LENGTH_SHORT).show();
+
+
+         Button totest =  (Button)findViewById(R.id.totest);
+         totest.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent i =  new Intent(MainActivity.this,Test.class);
+                 startActivity(i);
+             }
+         });
+
+
 
     }
 
@@ -111,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int y = Integer.parseInt(dateString.split("-")[0]);
                 int m = Integer.parseInt(dateString.split("-")[1]);
                 int d = Integer.parseInt(dateString.split("-")[2]);
+
+                CurrentUser.getInstance().setCurrent_date(y*1000+m*100+d);
 
                 System.out.print("******************");
                 System.out.print(y);
