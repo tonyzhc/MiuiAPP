@@ -21,7 +21,7 @@ public class Global_Data  {
         return global_data;
     }
 
-    private  String netAddress ="http://10.231.27.241:5002/";
+    private  String netAddress ="http://10.231.21.222:5002/";
     private  String Login_url  =netAddress + "login/";
     private  String Label_url  =netAddress + "label/";
     private  String Trace_url  =netAddress + "trace/";

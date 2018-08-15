@@ -70,7 +70,6 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView myTextView;
-        public boolean startUp = true;
 
         public void setFocus(final Integer itemIndex) {
             final String original = myTextView.getText().toString();
@@ -79,6 +78,32 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
             myTextView.setInputType(InputType.TYPE_CLASS_TEXT);
             myTextView.requestFocus();
 
+            myTextView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    myTextView.setCursorVisible(false);
+                    myTextView.setFocusableInTouchMode(false);
+                    String content = myTextView.getText().toString();
+                    if(content.equals("")) {
+                        Toast.makeText(myTextView.getContext(), "标签不能为空", Toast.LENGTH_SHORT).show();
+                        myTextView.setText(original);
+                    } else {
+                        labels.set(itemIndex.intValue(), content);
+                        System.out.println("label changed to " + content);
+                    }
+                }
+            });
+/*
             myTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
@@ -89,12 +114,14 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
                         if(content.equals("")) {
                             Toast.makeText(myTextView.getContext(), "标签不能为空", Toast.LENGTH_SHORT).show();
                             myTextView.setText(original);
+                            labels.set(itemIndex.intValue(), original);
                         } else {
                             labels.set(itemIndex.intValue(), content);
+                            System.out.println("label changed to " + content);
                         }
                     }
                 }
-            });
+            });*/
         }
 
         //Handles what happens when user select them
@@ -143,6 +170,7 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
             myTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    myTextView.setSelected(true);
                     selectItem(i);
                 }
             });
