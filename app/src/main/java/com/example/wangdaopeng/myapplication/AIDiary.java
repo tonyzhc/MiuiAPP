@@ -7,7 +7,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
@@ -39,6 +45,7 @@ public class AIDiary extends AppCompatActivity {
         setTitle(date);
         //生成一个calender以便于后面跳转
 
+
         Calendar calendar = Calendar.getInstance();
         calendar.set(y,m-1,d);
         //获得前一天和后一天的时间，标准格式,用于请求数据
@@ -53,6 +60,13 @@ public class AIDiary extends AppCompatActivity {
         DatePicker datePicker = (DatePicker)findViewById(R.id.Aidatapicker);
         datePicker.updateDate(y,m-1,d);
 
+        /** 显示日记**/
+        TextView textView =(TextView)findViewById(R.id.Aidairy);
+        try {
+            textView.setText(CurrentUser.getInstance().get_dairy(date));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
         Button yesterday = (Button)findViewById(R.id.AIyesterday);

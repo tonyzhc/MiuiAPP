@@ -27,6 +27,7 @@ public class Global_Data  {
     private  String Trace_url  =netAddress + "trace/";
     private  String Logout_url =netAddress + "logout/";
     private  String Submitlabel_url =netAddress + "changelabel/";
+    private  String Actstat_url  = netAddress +"aidairy/";
 
     HashMap<String,String> pic_name = new HashMap<String,String>(){
         {
@@ -89,6 +90,8 @@ public class Global_Data  {
     }
 
     public String getSubmitlabel_url() {return Submitlabel_url;}
+
+    public String getActstat_url(){return Actstat_url;}
 
 }
 

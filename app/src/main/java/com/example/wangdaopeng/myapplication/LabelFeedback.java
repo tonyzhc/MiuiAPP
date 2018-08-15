@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -62,17 +63,20 @@ public class LabelFeedback extends AppCompatActivity {
         fd_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i =  new Intent(LabelFeedback.this,profile.class);
                 String flag ="2";
                 String result = ((LabelListAdapter) adapter).getLabels();
+                Log.v("liuqi",result);
                 try {
                      flag =CurrentUser.getInstance().submit_label(result);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 if(flag.equals("1"))
-                Toast.makeText(getApplicationContext(), "标签更新成功", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "标签更新成功", Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getApplicationContext(), "标签更新失败", Toast.LENGTH_SHORT).show();
+                startActivity(i);
 
             }
         });

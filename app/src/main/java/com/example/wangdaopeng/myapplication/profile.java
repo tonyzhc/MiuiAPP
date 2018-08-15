@@ -41,12 +41,12 @@ public class profile extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
         try {
-            labelString = CurrentUser.getInstance().get_label().substring(1,CurrentUser.getInstance().get_label().length()-1);
+            labelString = CurrentUser.getInstance().get_label();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        String[] userLabel = labelString.split("#");
+//        labelString ="a#b#c#a#b#c#a#b#c#a#b#c#a#b#c#a#b#c";
+        String[] userLabel = labelString.substring(1,labelString.length()-1).split("#");
         String[]  Idname =  {"userlabel1","userlabel2","userlabel3","userlabel4","userlabel5","userlabel6","userlabel7","userlabel8","userlabel9"};
         Resources res =  getResources();
         ArrayList<Button> buttonslist = new ArrayList<>();

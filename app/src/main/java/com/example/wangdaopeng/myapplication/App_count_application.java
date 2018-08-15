@@ -133,6 +133,53 @@ public class App_count_application extends AppCompatActivity {
          put("getByyear",4);
          **/
 
+
+        /** 显示柱状图**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**显示柱状图**/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         TreeMap<String,Long> appuse=appUseStatics.get_StaticsByDay() ;
         if(flag==1) appuse = appUseStatics.get_StaticsByDay();
         if(flag==2) appuse = appUseStatics.get_StaticsByWeek();
