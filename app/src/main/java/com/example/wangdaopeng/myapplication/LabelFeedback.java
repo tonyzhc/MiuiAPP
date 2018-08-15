@@ -69,8 +69,12 @@ public class LabelFeedback extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        data = new ArrayList<>(Arrays.asList(dummy_variable.split("#")));
+        Log.v("labelshow",dummy_variable);
+        String dataTemp[] = dummy_variable.split("#");
+        for(int i = 0; i < dataTemp.length; i++) {
+            dataTemp[i] = "#" + dataTemp[i];
+        }
+        data = new ArrayList<>(Arrays.asList(dataTemp));
         data.remove(0);
 
         rv = findViewById(R.id.label_rv);
@@ -110,7 +114,7 @@ public class LabelFeedback extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        ((LabelListAdapter) adapter).addLabel("请修改新标签");
+        ((LabelListAdapter) adapter).addLabel("#");
         return super.onOptionsItemSelected(item);
     }
 }
