@@ -1,20 +1,29 @@
 package com.example.wangdaopeng.myapplication;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -69,25 +78,20 @@ public class LabelListAdapter extends RecyclerView.Adapter<LabelListAdapter.View
             myTextView.setFocusableInTouchMode(true);
             myTextView.setInputType(InputType.TYPE_CLASS_TEXT);
             myTextView.requestFocus();
-            myTextView.addTextChangedListener(new TextWatcher() {
+
+            myTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    String content = myTextView.getText().toString();
-                    if(content.equals("")) {
-                        Toast.makeText(myTextView.getContext(), "标签不能为空", Toast.LENGTH_SHORT).show();
-                        myTextView.setText(original);
-                    } else {
-                        labels.set(itemIndex.intValue(), myTextView.getText().toString());
+                public void onFocusChange(View view, boolean b) {
+                    if(!b) {
+                        myTextView.setCursorVisible(false);
+                        myTextView.setFocusableInTouchMode(false);
+                        String content = myTextView.getText().toString();
+                        if(content.equals("")) {
+                            Toast.makeText(myTextView.getContext(), "标签不能为空", Toast.LENGTH_SHORT).show();
+                            myTextView.setText(original);
+                        } else {
+                            labels.set(itemIndex.intValue(), content);
+                        }
                     }
                 }
             });

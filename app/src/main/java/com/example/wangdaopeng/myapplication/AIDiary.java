@@ -95,8 +95,5 @@ public class AIDiary extends AppCompatActivity {
         });
 
 
-
-
-
     }
 }
